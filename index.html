@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+        crossorigin="anonymous" />
+    <title>OI Data</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.42857143;
+            color: #333;
+            background-color: #fff;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 2px solid black;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            border: 2px solid black;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background-color: #794caf;
+            color: white;
+            border: 2px solid black;
+        }
+
+        .table-container table {
+            width: 50%;
+            margin-right: 20px;
+        }
+
+        .table-container {
+            position: inherit;
+            height: 400px;
+            overflow: scroll;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .small-table table {
+            width: 50%;
+            margin-right: 20px;
+        }
+
+        .small-table {
+            position: inherit;
+            height: 100px;
+            overflow: scroll;
+            display: flex;
+            flex-direction: row;
+        }
+
+        footer {
+            background: #84CDD5;
+            color: white;
+            padding: 2px 30px;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Current Underlying Data</h1>
+    <div class="small-table">
+        <table id="my-table">
+            <thead>
+                <tr>
+                    <th style="border: 2px solid black; text-align: center;">underlying</th>
+                    <th style="border: 2px solid black; text-align: center;">expiryDate</th>
+                    <th style="border: 2px solid black; text-align: center;">underlyingValue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in niftyunderlying %}
+                <tr>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[0] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[1] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id="my-table">
+            <thead>
+                <tr>
+                    <th style="border: 2px solid black; text-align: center;">underlying</th>
+                    <th style="border: 2px solid black; text-align: center;">expiryDate</th>
+                    <th style="border: 2px solid black; text-align: center;">underlyingValue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in bniftyunderlying %}
+                <tr>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[0] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[1] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h1>OI Data Table</h1>
+    <div class="table-container">
+        <table id="myTable">
+            <tr>
+                <th>CE_Sig</th>
+                <th>CE_OI</th>
+                <th>CE_COI</th>
+                <th>CE_VOL</th>
+                <th>CE_IV</th>
+                <th>CE_CHG</th>
+                <th>SP</th>
+                <th>PE_CHG</th>
+                <th>PE_IV</th>
+                <th>PE_VOL</th>
+                <th>PE_COI</th>
+                <th>PE_OI</th>
+                <th>PE_Sig</th>
+            </tr>
+            {% for row in niftyoi %}
+            <tr>
+                <td style="border: 2px solid black; padding: 8px; 
+                        {% if row[0] == 'Long Buildup' or row[0] == 'Short covering' %}
+                        background-color: #156B36; color: white;
+                        {% elif row[0] == 'Long Liquidation' or row[0] == 'Short Buildup' %}
+                        background-color: #A01A11; color: white;
+                        {% else %}
+                        background-color: rgba(55, 44, 151, 0.281); color: white;
+                        {% endif %}">{{ row[0] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[1] is none %}
+                    N/A
+                    {% elif row[1] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
+                    {% elif row[1] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[1] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[2] is none %}
+                    N/A
+                    {% elif row[2] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
+                    {% elif row[2] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[2] }}</span>
+                        {% endif %}
+                </td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;">{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+                <td>{{ row[8] }}</td>
+                <td>{{ row[9] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[10] is none %}none{% elif row[10] > 0 %}positive{% elif row[10] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[10] is none %}
+                    N/A
+                    {% elif row[10] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[10] }}</span>
+                    {% elif row[10] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[10]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[10] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[11] is none %}none{% elif row[11] > 0 %}positive{% elif row[11] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[11] is none %}
+                    N/A
+                    {% elif row[11] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[11] }}</span>
+                    {% elif row[11] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[11]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[11] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; padding: 8px; 
+                        {% if row[12] == 'Long Buildup' or row[12] == 'Short covering' %}
+                        background-color: #156B36; color: white;
+                        {% elif row[12] == 'Long Liquidation' or row[12] == 'Short Buildup' %}
+                        background-color: #A01A11; color: white;
+                        {% else %}
+                        background-color: rgba(55, 44, 151, 0.281); color: white;
+                        {% endif %}">{{ row[12] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table id="myTable">
+            <tr>
+                <th>CE_Sig</th>
+                <th>CE_OI</th>
+                <th>CE_COI</th>
+                <th>CE_VOL</th>
+                <th>CE_IV</th>
+                <th>CE_CHG</th>
+                <th>SP</th>
+                <th>PE_CHG</th>
+                <th>PE_IV</th>
+                <th>PE_VOL</th>
+                <th>PE_COI</th>
+                <th>PE_OI</th>
+                <th>PE_Sig</th>
+            </tr>
+            {% for row in bniftyoi %}
+            <tr>
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[0] == 'Long Buildup' or row[0] == 'Short covering' %}
+                    background-color: #156B36; color: white;
+                    {% elif row[0] == 'Long Liquidation' or row[0] == 'Short Buildup' %}
+                    background-color: #A01A11; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[0] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[1] is none %}
+                    N/A
+                    {% elif row[1] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
+                    {% elif row[1] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[1] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[2] is none %}
+                    N/A
+                    {% elif row[2] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
+                    {% elif row[2] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[2] }}</span>
+                        {% endif %}
+                </td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;">{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+                <td>{{ row[8] }}</td>
+                <td>{{ row[9] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[10] is none %}none{% elif row[10] > 0 %}positive{% elif row[10] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[10] is none %}
+                    N/A
+                    {% elif row[10] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[10] }}</span>
+                    {% elif row[10] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[10]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[10] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[11] is none %}none{% elif row[11] > 0 %}positive{% elif row[11] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[11] is none %}
+                    N/A
+                    {% elif row[11] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[11] }}</span>
+                    {% elif row[11] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[11]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[11] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[12] == 'Long Buildup' or row[12] == 'Short covering' %}
+                    background-color: #156B36; color: white;
+                    {% elif row[12] == 'Long Liquidation' or row[12] == 'Short Buildup' %}
+                    background-color: #A01A11; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[12] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="table-container">
+        <table id="myTable">
+            <tr>
+                <th>Break_IV</th>
+                <th>Break_OI</th>
+                <th>Break_COI</th>
+                <th>SP</th>
+                <th>CNT</th>
+                <th>COIBYNT</th>
+                <th>PNT</th>
+                <th>POIBYNT</th>
+            </tr>
+            {% for row in breakniftyoi %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;">{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table id="myTable">
+            <tr>
+                <th>Break_IV</th>
+                <th>Break_OI</th>
+                <th>Break_COI</th>
+                <th>SP</th>
+                <th>CNT</th>
+                <th>COIBYNT</th>
+                <th>PNT</th>
+                <th>POIBYNT</th>
+            </tr>
+            {% for row in breakbniftyoi %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;">{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+<footer>
+    <div class="center">
+        <p>Developed by <a href="www.gauravsuryawanshi.com" target="_blank">Gaurav Suryawanshi</a></p>
+        Copyright &copy; www.gauravsuryawanshi.com All Right reserved
+    </div>
+</footer>
+
+</html>

@@ -7,7 +7,7 @@ import sqlalchemy
 engine = sqlalchemy.create_engine('mysql+pymysql://test:Telefonica2035@localhost:3306/fnodatabase')
 
 #index=input("Enter index Name:")   # NIFTY
-index='NIFTY'   # NIFTY
+index='BANKNIFTY'   # NIFTY
 #expirarydate=input("Enter expirary Date")  #29-Mar-2023
 #equity=input("Enter equity Name:")
 
@@ -36,7 +36,7 @@ while True:
                  #print(ocdata)
     ocdf = pd.DataFrame(ocdata)
     #print(ocdf)
-    tablename = 'niftyoidata'
+    tablename = 'bankniftyoidata'
     ocdf.columns = [c.strip() for c in ocdf.columns.values.tolist()]
     ocdf.to_sql(name = tablename, con = engine, index=True, if_exists= 'replace')
     time.sleep(10)

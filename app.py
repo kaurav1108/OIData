@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -360,8 +361,6 @@ FROM (
 
 
 
-
-
 # configure MySQL connection
 # configure MySQL connection pool
 config = {
@@ -371,7 +370,7 @@ config = {
     'port': 3306,
     'database': 'fnodatabase',
     'pool_name': 'fnodatabase_pool',
-    'pool_size': 14,
+    'pool_size': 16,
     'pool_reset_session': True
 }
 
@@ -473,5 +472,95 @@ def page2():
     
     return render_template('index2.html', rangeniftyunderlying=rangeniftyunderlying, rangeniftypcr=rangeniftypcr, rangebankniftypcr=rangebankniftypcr, rangebniftyunderlying=rangebniftyunderlying, rangeniftyoi=rangeniftyoi, rangebniftyoi=rangebniftyoi, rangebreakniftyoi=rangebreakniftyoi, rangebreakbniftyoi=rangebreakbniftyoi)
 
+
+
+
+@app.route("/page3")
+def page3():
+    fiidiisql = """
+SELECT * FROM fnodatabase.open_interest;
+"""
+    connection = pool.get_connection()
+
+# Execute the query and store the results in a Pandas dataframe
+    df = pd.read_sql(fiidiisql, con=connection)
+
+    # Close the database connection
+    connection.close()
+
+    # Create separate dataframes for each client type
+    df_client = df[df['Client Type'] == 'Client']
+    df_dii = df[df['Client Type'] == 'DII']
+    df_fii = df[df['Client Type'] == 'FII']
+    df_pro = df[df['Client Type'] == 'Pro']
+
+    # Add a new column to each dataframe that contains the difference between Long - Short Difference
+    df_client.loc[:, 'Future Long - Short'] = df_client['Future Index Long'] - df_client['Future Index Short']
+    df_dii.loc[:, 'Future Long - Short'] = df_dii['Future Index Long'] - df_dii['Future Index Short']
+    df_fii.loc[:, 'Future Long - Short'] = df_fii['Future Index Long'] - df_fii['Future Index Short']
+    df_pro.loc[:, 'Future Long - Short'] = df_pro['Future Index Long'] - df_pro['Future Index Short']
+
+    # Add a new column to each dataframe that contains the difference between consecutive rows
+    df_client.loc[:, 'FROC'] = df_client['Future Long - Short'].diff()
+    df_dii.loc[:, 'FROC'] = df_dii['Future Long - Short'].diff()
+    df_fii.loc[:, 'FROC'] = df_fii['Future Long - Short'].diff()
+    df_pro.loc[:, 'FROC'] = df_pro['Future Long - Short'].diff()
+
+    # Add a new column that categorizes the 'Difference Between Rows' column as 'Bullish' or 'Bearish'
+    df_client.loc[:, 'Future Trend'] = df_client['FROC'].apply(lambda x: 'Bullish' if x > 0 else 'Bearish')
+    df_dii.loc[:, 'Future Trend'] = df_dii['FROC'].apply(lambda x: 'Bullish' if x > 0 else 'Bearish')
+    df_fii.loc[:, 'Future Trend'] = df_fii['FROC'].apply(lambda x: 'Bullish' if x > 0 else 'Bearish')
+    df_pro.loc[:, 'Future Trend'] = df_pro['FROC'].apply(lambda x: 'Bullish' if x > 0 else 'Bearish')
+
+
+    #Netcall	Call long - short
+    df_client.loc[:, 'Call Long - Short'] = df_client['Option Index Call Long'] - df_client['Option Index Call Short']
+    df_dii.loc[:, 'Call Long - Short'] = df_dii['Option Index Call Long'] - df_dii['Option Index Call Short']
+    df_fii.loc[:, 'Call Long - Short'] = df_fii['Option Index Call Long'] - df_fii['Option Index Call Short']
+    df_pro.loc[:, 'Call Long - Short'] = df_pro['Option Index Call Long'] - df_pro['Option Index Call Short']
+
+    #NetPut	    Put long - short
+    df_client.loc[:, 'Put Long - Short'] = df_client['Option Index Put Long'] - df_client['Option Index Put Short']
+    df_dii.loc[:, 'Put Long - Short'] = df_dii['Option Index Put Long'] - df_dii['Option Index Put Short']
+    df_fii.loc[:, 'Put Long - Short'] = df_fii['Option Index Put Long'] - df_fii['Option Index Put Short']
+    df_pro.loc[:, 'Put Long - Short'] = df_pro['Option Index Put Long'] - df_pro['Option Index Put Short']
+
+    #Call ROC CD - PD
+    df_client.loc[:, 'Call ROC'] = df_client['Call Long - Short'].diff()
+    df_dii.loc[:, 'Call ROC'] = df_dii['Call Long - Short'].diff()
+    df_fii.loc[:, 'Call ROC'] = df_fii['Call Long - Short'].diff()
+    df_pro.loc[:, 'Call ROC'] = df_pro['Call Long - Short'].diff()
+
+    # Add a new column that categorizes the 'Difference Between Rows' column as 'Bullish' or 'Bearish'
+    df_client.loc[:, 'CE Activity'] = df_client['Call ROC'].apply(lambda x: 'Bought-Calls-Bullish' if x > 0 else 'Sold-Calls-Bearish')
+    df_dii.loc[:, 'CE Activity'] = df_dii['Call ROC'].apply(lambda x: 'Bought-Calls-Bullish' if x > 0 else 'Sold-Calls-Bearish')
+    df_fii.loc[:, 'CE Activity'] = df_fii['Call ROC'].apply(lambda x: 'Bought-Calls-Bullish' if x > 0 else 'Sold-Calls-Bearish')
+    df_pro.loc[:, 'CE Activity'] = df_pro['Call ROC'].apply(lambda x: 'Bought-Calls-Bullish' if x > 0 else 'Sold-Calls-Bearish')
+
+    #Put ROC CD - PD
+    df_client.loc[:, 'Put ROC'] = df_client['Put Long - Short'].diff()
+    df_dii.loc[:, 'Put ROC'] = df_dii['Put Long - Short'].diff()
+    df_fii.loc[:, 'Put ROC'] = df_fii['Put Long - Short'].diff()
+    df_pro.loc[:, 'Put ROC'] = df_pro['Put Long - Short'].diff()
+
+
+    # Add a new column that categorizes the 'Difference Between Rows' column as 'Bullish' or 'Bearish'
+    df_client.loc[:, 'PE Activity'] = df_client['Put ROC'].apply(lambda x: 'Bought-Puts-Bearish' if x > 0 else 'Sold-Puts-Bullish')
+    df_dii.loc[:, 'PE Activity'] = df_dii['Put ROC'].apply(lambda x: 'Bought-Puts-Bearish' if x > 0 else 'Sold-Puts-Bullish')
+    df_fii.loc[:, 'PE Activity'] = df_fii['Put ROC'].apply(lambda x: 'Bought-Puts-Bearish' if x > 0 else 'Sold-Puts-Bullish')
+    df_pro.loc[:, 'PE Activity'] = df_pro['Put ROC'].apply(lambda x: 'Bought-Puts-Bearish' if x > 0 else 'Sold-Puts-Bullish')
+
+    # Sort the dataframes in descending order based on the difference column
+    df_client = df_client.sort_values(by='Date', ascending=False)
+    df_dii = df_dii.sort_values(by='Date', ascending=False)
+    df_fii = df_fii.sort_values(by='Date', ascending=False)
+    df_pro = df_pro.sort_values(by='Date', ascending=False)
+
+
+    return render_template('index3.html', df_client=df_client, df_dii=df_dii, df_fii=df_fii, df_pro=df_pro)
+
 if __name__ == '__main__':
     app.run()
+
+ 
+    

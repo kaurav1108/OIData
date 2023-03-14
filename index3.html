@@ -74,6 +74,18 @@
             float: right;
             margin-right: 888px;
         }
+        .green {
+        background-color: #B0E4C4;
+        color: white;
+        }
+        .red {
+        background-color: #FEB6B6;
+        color: white;
+        }
+        .none {
+        background-color: rgba(55, 44, 151, 0.281);
+        color: white;
+        }
     </style>
 </head>
 
@@ -113,17 +125,23 @@
                     <td>{{ row[1]['Future Index Short'] }}</td>
                     <td>{{ row[1]['Future Long - Short'] }}</td>
                     <td>{{ row[1]['FROC'] }}</td>
-                    <td>{{ row[1]['Future Trend'] }}</td>
+                    <td style="background-color: {% if row[1]['Future Trend'] == 'Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['Future Trend'] }}
+                    </td>
                     <td>{{ row[1]['Option Index Call Long'] }}</td>
                     <td>{{ row[1]['Option Index Call Short'] }}</td>
                     <td>{{ row[1]['Call Long - Short'] }}</td>
                     <td>{{ row[1]['Call ROC'] }}</td>
-                    <td>{{ row[1]['CE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['CE Activity'] == 'Bought-Calls-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['CE Activity'] }}
+                    </td>
                     <td>{{ row[1]['Option Index Put Long'] }}</td>
                     <td>{{ row[1]['Option Index Put Short'] }}</td>
                     <td>{{ row[1]['Put Long - Short'] }}</td>
                     <td>{{ row[1]['Put ROC'] }}</td>
-                    <td>{{ row[1]['PE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['PE Activity'] == 'Sold-Puts-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['PE Activity'] }}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -158,17 +176,23 @@
                     <td>{{ row[1]['Future Index Short'] }}</td>
                     <td>{{ row[1]['Future Long - Short'] }}</td>
                     <td>{{ row[1]['FROC'] }}</td>
-                    <td>{{ row[1]['Future Trend'] }}</td>
+                    <td style="background-color: {% if row[1]['Future Trend'] == 'Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['Future Trend'] }}
+                    </td>
                     <td>{{ row[1]['Option Index Call Long'] }}</td>
                     <td>{{ row[1]['Option Index Call Short'] }}</td>
                     <td>{{ row[1]['Call Long - Short'] }}</td>
                     <td>{{ row[1]['Call ROC'] }}</td>
-                    <td>{{ row[1]['CE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['CE Activity'] == 'Bought-Calls-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['CE Activity'] }}
+                    </td>
                     <td>{{ row[1]['Option Index Put Long'] }}</td>
                     <td>{{ row[1]['Option Index Put Short'] }}</td>
                     <td>{{ row[1]['Put Long - Short'] }}</td>
                     <td>{{ row[1]['Put ROC'] }}</td>
-                    <td>{{ row[1]['PE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['PE Activity'] == 'Sold-Puts-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['PE Activity'] }}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -208,17 +232,23 @@
                     <td>{{ row[1]['Future Index Short'] }}</td>
                     <td>{{ row[1]['Future Long - Short'] }}</td>
                     <td>{{ row[1]['FROC'] }}</td>
-                    <td>{{ row[1]['Future Trend'] }}</td>
+                    <td style="background-color: {% if row[1]['Future Trend'] == 'Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['Future Trend'] }}
+                    </td>
                     <td>{{ row[1]['Option Index Call Long'] }}</td>
                     <td>{{ row[1]['Option Index Call Short'] }}</td>
                     <td>{{ row[1]['Call Long - Short'] }}</td>
                     <td>{{ row[1]['Call ROC'] }}</td>
-                    <td>{{ row[1]['CE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['CE Activity'] == 'Bought-Calls-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['CE Activity'] }}
+                    </td>
                     <td>{{ row[1]['Option Index Put Long'] }}</td>
                     <td>{{ row[1]['Option Index Put Short'] }}</td>
                     <td>{{ row[1]['Put Long - Short'] }}</td>
                     <td>{{ row[1]['Put ROC'] }}</td>
-                    <td>{{ row[1]['PE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['PE Activity'] == 'Sold-Puts-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['PE Activity'] }}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -260,19 +290,25 @@
                     <td>{{ row[1]['Future Index Short'] }}</td>
                     <td>{{ row[1]['Future Long - Short'] }}</td>
                     <td>{{ row[1]['FROC'] }}</td>
-                    <td>{{ row[1]['Future Trend'] }}</td>
+                    <td style="background-color: {% if row[1]['Future Trend'] == 'Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['Future Trend'] }}
+                    </td>
                     <!-- <td>{{ row[1]['Future Stock Long'] }}</td>
 					<td>{{ row[1]['Future Stock Short'] }}</td> -->
                     <td>{{ row[1]['Option Index Call Long'] }}</td>
                     <td>{{ row[1]['Option Index Call Short'] }}</td>
                     <td>{{ row[1]['Call Long - Short'] }}</td>
                     <td>{{ row[1]['Call ROC'] }}</td>
-                    <td>{{ row[1]['CE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['CE Activity'] == 'Bought-Calls-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['CE Activity'] }}
+                    </td>
                     <td>{{ row[1]['Option Index Put Long'] }}</td>
                     <td>{{ row[1]['Option Index Put Short'] }}</td>
                     <td>{{ row[1]['Put Long - Short'] }}</td>
                     <td>{{ row[1]['Put ROC'] }}</td>
-                    <td>{{ row[1]['PE Activity'] }}</td>
+                    <td style="background-color: {% if row[1]['PE Activity'] == 'Sold-Puts-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
+                        {{ row[1]['PE Activity'] }}
+                    </td>
                     <!-- <td>{{ row[1]['Option Stock Call Long'] }}</td>
 					<td>{{ row[1]['Option Stock Put Long'] }}</td>
 					<td>{{ row[1]['Option Stock Call Short'] }}</td>

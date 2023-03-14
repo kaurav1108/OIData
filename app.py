@@ -488,6 +488,8 @@ SELECT * FROM fnodatabase.open_interest;
     # Close the database connection
     connection.close()
 
+    df['Date'] = df['Date'].dt.date
+
     # Create separate dataframes for each client type
     df_client = df[df['Client Type'] == 'Client']
     df_dii = df[df['Client Type'] == 'DII']
@@ -501,10 +503,10 @@ SELECT * FROM fnodatabase.open_interest;
     df_pro.loc[:, 'Future Long - Short'] = df_pro['Future Index Long'] - df_pro['Future Index Short']
 
     # Add a new column to each dataframe that contains the difference between consecutive rows
-    df_client.loc[:, 'FROC'] = df_client['Future Long - Short'].diff()
-    df_dii.loc[:, 'FROC'] = df_dii['Future Long - Short'].diff()
-    df_fii.loc[:, 'FROC'] = df_fii['Future Long - Short'].diff()
-    df_pro.loc[:, 'FROC'] = df_pro['Future Long - Short'].diff()
+    df_client.loc[:, 'FROC'] = (df_client['Future Long - Short'].diff()).fillna(0).astype(int)
+    df_dii.loc[:, 'FROC'] = (df_dii['Future Long - Short'].diff()).fillna(0).astype(int)
+    df_fii.loc[:, 'FROC'] = (df_fii['Future Long - Short'].diff()).fillna(0).astype(int)
+    df_pro.loc[:, 'FROC'] = (df_pro['Future Long - Short'].diff()).fillna(0).astype(int)
 
     # Add a new column that categorizes the 'Difference Between Rows' column as 'Bullish' or 'Bearish'
     df_client.loc[:, 'Future Trend'] = df_client['FROC'].apply(lambda x: 'Bullish' if x > 0 else 'Bearish')
@@ -526,10 +528,10 @@ SELECT * FROM fnodatabase.open_interest;
     df_pro.loc[:, 'Put Long - Short'] = df_pro['Option Index Put Long'] - df_pro['Option Index Put Short']
 
     #Call ROC CD - PD
-    df_client.loc[:, 'Call ROC'] = df_client['Call Long - Short'].diff()
-    df_dii.loc[:, 'Call ROC'] = df_dii['Call Long - Short'].diff()
-    df_fii.loc[:, 'Call ROC'] = df_fii['Call Long - Short'].diff()
-    df_pro.loc[:, 'Call ROC'] = df_pro['Call Long - Short'].diff()
+    df_client.loc[:, 'Call ROC'] = (df_client['Call Long - Short'].diff()).fillna(0).astype(int)
+    df_dii.loc[:, 'Call ROC'] = (df_dii['Call Long - Short'].diff()).fillna(0).astype(int)
+    df_fii.loc[:, 'Call ROC'] = (df_fii['Call Long - Short'].diff()).fillna(0).astype(int)
+    df_pro.loc[:, 'Call ROC'] = (df_pro['Call Long - Short'].diff()).fillna(0).astype(int)
 
     # Add a new column that categorizes the 'Difference Between Rows' column as 'Bullish' or 'Bearish'
     df_client.loc[:, 'CE Activity'] = df_client['Call ROC'].apply(lambda x: 'Bought-Calls-Bullish' if x > 0 else 'Sold-Calls-Bearish')
@@ -538,10 +540,10 @@ SELECT * FROM fnodatabase.open_interest;
     df_pro.loc[:, 'CE Activity'] = df_pro['Call ROC'].apply(lambda x: 'Bought-Calls-Bullish' if x > 0 else 'Sold-Calls-Bearish')
 
     #Put ROC CD - PD
-    df_client.loc[:, 'Put ROC'] = df_client['Put Long - Short'].diff()
-    df_dii.loc[:, 'Put ROC'] = df_dii['Put Long - Short'].diff()
-    df_fii.loc[:, 'Put ROC'] = df_fii['Put Long - Short'].diff()
-    df_pro.loc[:, 'Put ROC'] = df_pro['Put Long - Short'].diff()
+    df_client.loc[:, 'Put ROC'] = (df_client['Put Long - Short'].diff()).fillna(0).astype(int)
+    df_dii.loc[:, 'Put ROC'] = (df_dii['Put Long - Short'].diff()).fillna(0).astype(int)
+    df_fii.loc[:, 'Put ROC'] = (df_fii['Put Long - Short'].diff()).fillna(0).astype(int)
+    df_pro.loc[:, 'Put ROC'] = (df_pro['Put Long - Short'].diff()).fillna(0).astype(int)
 
 
     # Add a new column that categorizes the 'Difference Between Rows' column as 'Bullish' or 'Bearish'

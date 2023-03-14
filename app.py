@@ -13,10 +13,10 @@ select underlying,expiryDate,underlyingValue  FROM fnodatabase.bankniftyoidata W
 niftyoisql="""
 Select 
 	CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
+	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallBuy-PutSell'
     END AS 'CE_Signal',
   MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
   MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END) AS 'CE_ChangeinOpenInterest',
@@ -30,10 +30,10 @@ Select
   MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END) AS 'PE_ChangeinOpenInterest',
   MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest',
   CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
+	WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallSell-Putbuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
     END AS 'PE_Signal'
 FROM fnodatabase.niftyoidata
 WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
@@ -43,10 +43,10 @@ ORDER BY strikePrice;
 bniftyoisql="""
 Select 
 	CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
+	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallBuy-PutSell'
     END AS 'CE_Signal',
   MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
   MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END) AS 'CE_ChangeinOpenInterest',
@@ -60,10 +60,10 @@ Select
   MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END) AS 'PE_ChangeinOpenInterest',
   MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest',
   CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
+	WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallSell-Putbuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
     END AS 'PE_Signal'
 FROM fnodatabase.bankniftyoidata
 WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
@@ -190,10 +190,10 @@ select underlying,expiryDate,underlyingValue  FROM fnodatabase.bankniftyoidata W
 rangeniftyoisql="""
 Select 
 	CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
+	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallBuy-PutSell'
     END AS 'CE_Signal',
   MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
   MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END) AS 'CE_ChangeinOpenInterest',
@@ -207,11 +207,11 @@ Select
   MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END) AS 'PE_ChangeinOpenInterest',
   MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest',
   CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
-    END AS 'PE_Signal'
+WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallSell-Putbuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
+        END AS 'PE_Signal'
 FROM fnodatabase.niftyoidata
 WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 16900 AND 17600
 GROUP BY strikePrice
@@ -220,10 +220,10 @@ ORDER BY strikePrice;
 rangebniftyoisql="""
 Select 
 	CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
+	WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallSell-PutBuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'CE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallBuy-PutSell'
     END AS 'CE_Signal',
   MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
   MAX(CASE WHEN instrumentType = 'CE' THEN changeinOpenInterest END) AS 'CE_ChangeinOpenInterest',
@@ -237,10 +237,10 @@ Select
   MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END) AS 'PE_ChangeinOpenInterest',
   MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest',
   CASE
-	WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup'
-    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering'
+	WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Long Liquidation-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Short Buildup-CallBuy-PutSell'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) > 0 THEN 'Long Buildup-CallSell-Putbuy'
+    WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
     END AS 'PE_Signal'
 FROM fnodatabase.bankniftyoidata
 WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 39000 AND 41000

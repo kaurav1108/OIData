@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import mysql.connector
+from mysql.connector.pooling import MySQLConnectionPool
 
 app = Flask(__name__)
 
@@ -362,9 +363,22 @@ FROM (
 
 
 # configure MySQL connection
-cnx = mysql.connector.connect(user='test', password='Telefonica2035',
-                              host='localhost', port= 3306, database='fnodatabase')
-cursor = cnx.cursor()
+# configure MySQL connection pool
+config = {
+    'user': 'test',
+    'password': 'Telefonica2035',
+    'host': 'localhost',
+    'port': 3306,
+    'database': 'fnodatabase',
+    'pool_name': 'fnodatabase_pool',
+    'pool_size': 14,
+    'pool_reset_session': True
+}
+
+pool = MySQLConnectionPool(**config)
+
+
+#cursor = cnx.cursor()
 
 @app.route('/')
 def index():
@@ -373,6 +387,10 @@ def index():
 
 @app.route("/page1")
 def page1():
+
+   # get a connection from the pool
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
 
     # execute niftyunderlying query and fetch results
     cursor.execute(niftyunderlyingsql)
@@ -406,10 +424,17 @@ def page1():
     cursor.execute(breakbniftyoisql)
     breakbniftyoi = cursor.fetchall()
     
+    cursor.close()
+    cnx.close()
+
     return render_template('index.html', niftyunderlying=niftyunderlying, niftypcr=niftypcr, bankniftypcr=bankniftypcr, bniftyunderlying=bniftyunderlying, niftyoi=niftyoi, bniftyoi=bniftyoi, breakniftyoi=breakniftyoi, breakbniftyoi=breakbniftyoi)
 
 @app.route("/page2")
 def page2():
+
+# get a connection from the pool
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
 
     # execute niftyunderlying query and fetch results
     cursor.execute(rangeniftyunderlyingsql)
@@ -442,6 +467,9 @@ def page2():
     # execute breakbniftyoi query and fetch results
     cursor.execute(rangebreakbniftyoisql)
     rangebreakbniftyoi = cursor.fetchall()
+
+    cursor.close()
+    cnx.close()
     
     return render_template('index2.html', rangeniftyunderlying=rangeniftyunderlying, rangeniftypcr=rangeniftypcr, rangebankniftypcr=rangebankniftypcr, rangebniftyunderlying=rangebniftyunderlying, rangeniftyoi=rangeniftyoi, rangebniftyoi=rangebniftyoi, rangebreakniftyoi=rangebreakniftyoi, rangebreakbniftyoi=rangebreakbniftyoi)
 

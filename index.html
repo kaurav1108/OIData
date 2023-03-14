@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta http-equiv="refresh" content="60">
+    <meta http-equiv="refresh" content="600">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
         crossorigin="anonymous" />
@@ -177,104 +177,12 @@
             </tr>
             {% for row in niftyoi %}
             <tr>
-                <td style="border: 2px solid black; padding: 8px; 
-                        {% if row[0] == 'Long Buildup' or row[0] == 'Short covering' %}
-                        background-color: #156B36; color: white;
-                        {% elif row[0] == 'Long Liquidation' or row[0] == 'Short Buildup' %}
-                        background-color: #A01A11; color: white;
-                        {% else %}
-                        background-color: rgba(55, 44, 151, 0.281); color: white;
-                        {% endif %}">{{ row[0] }}</td>
-                <td style="border: 2px solid black; text-align: center;"
-                    class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
-                    {% if row[1] is none %}
-                    N/A
-                    {% elif row[1] > 0 %}
-                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
-                    {% elif row[1] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs
-                        }}</span>
-                        {% else %}
-                        <span style="color: blue;">{{ row[1] }}</span>
-                        {% endif %}
-                </td>
-                <td style="border: 2px solid black; text-align: center;"
-                    class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
-                    {% if row[2] is none %}
-                    N/A
-                    {% elif row[2] > 0 %}
-                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
-                    {% elif row[2] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs
-                        }}</span>
-                        {% else %}
-                        <span style="color: blue;">{{ row[2] }}</span>
-                        {% endif %}
-                </td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-                <td>{{ row[5] }}</td>
-                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;">{{ row[6] }}</td>
-                <td>{{ row[7] }}</td>
-                <td>{{ row[8] }}</td>
-                <td>{{ row[9] }}</td>
-                <td style="border: 2px solid black; text-align: center;"
-                    class="{% if row[10] is none %}none{% elif row[10] > 0 %}positive{% elif row[10] < 0 %}negative{% else %}zero{% endif %}">
-                    {% if row[10] is none %}
-                    N/A
-                    {% elif row[10] > 0 %}
-                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[10] }}</span>
-                    {% elif row[10] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[10]|abs
-                        }}</span>
-                        {% else %}
-                        <span style="color: blue;">{{ row[10] }}</span>
-                        {% endif %}
-                </td>
-                <td style="border: 2px solid black; text-align: center;"
-                    class="{% if row[11] is none %}none{% elif row[11] > 0 %}positive{% elif row[11] < 0 %}negative{% else %}zero{% endif %}">
-                    {% if row[11] is none %}
-                    N/A
-                    {% elif row[11] > 0 %}
-                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[11] }}</span>
-                    {% elif row[11] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[11]|abs
-                        }}</span>
-                        {% else %}
-                        <span style="color: blue;">{{ row[11] }}</span>
-                        {% endif %}
-                </td>
-                <td style="border: 2px solid black; padding: 8px; 
-                        {% if row[12] == 'Long Buildup' or row[12] == 'Short covering' %}
-                        background-color: #A01A11; color: white;
-                        {% elif row[12] == 'Long Liquidation' or row[12] == 'Short Buildup' %}
-                        background-color: #156B36; color: white;
-                        {% else %}
-                        background-color: rgba(55, 44, 151, 0.281); color: white;
-                        {% endif %}">{{ row[12] }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        
-        <table id="myTable">
-            <tr>
-                <th>CE_Sig</th>
-                <th>CE_OI</th>
-                <th>CE_COI</th>
-                <th>CE_VOL</th>
-                <th>CE_IV</th>
-                <th>CE_CHG</th>
-                <th>SP</th>
-                <th>PE_CHG</th>
-                <th>PE_IV</th>
-                <th>PE_VOL</th>
-                <th>PE_COI</th>
-                <th>PE_OI</th>
-                <th>PE_Sig</th>
-            </tr>
-            {% for row in bniftyoi %}
-            <tr>
-                <td style="border: 2px solid black; padding: 8px; 
-                    {% if row[0] == 'Long Buildup' or row[0] == 'Short covering' %}
-                    background-color: #156B36; color: white;
-                    {% elif row[0] == 'Long Liquidation' or row[0] == 'Short Buildup' %}
-                    background-color: #A01A11; color: white;
+                
+                    <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[0] == 'Long Buildup' %} background-color: #156B36; color: white;
+                    {% elif row[0] == 'Short Buildup' %} background-color: #A01A11; color: white;
+                    {% elif row[0] == 'Short covering' %} background-color: #F25836; color: white;
+                    {% elif row[0] == 'Long Liquidation' %} background-color: #156B36; color: white;
                     {% else %}
                     background-color: rgba(55, 44, 151, 0.281); color: white;
                     {% endif %}">{{ row[0] }}</td>
@@ -334,10 +242,103 @@
                         {% endif %}
                 </td>
                 <td style="border: 2px solid black; padding: 8px; 
-                    {% if row[12] == 'Long Buildup' or row[12] == 'Short covering' %}
-                    background-color: #156B36; color: white;
-                    {% elif row[12] == 'Long Liquidation' or row[12] == 'Short Buildup' %}
-                    background-color: #A01A11; color: white;
+                    {% if row[12] == 'Long Buildup' %} background-color: #156B36; color: white;
+                    {% elif row[12] == 'Short Buildup' %} background-color: #A01A11; color: white;
+                    {% elif row[12] == 'Short covering' %} background-color: #F25836; color: white;
+                    {% elif row[12] == 'Long Liquidation' %} background-color: #156B36; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[12] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <table id="myTable">
+            <tr>
+                <th>CE_Sig</th>
+                <th>CE_OI</th>
+                <th>CE_COI</th>
+                <th>CE_VOL</th>
+                <th>CE_IV</th>
+                <th>CE_CHG</th>
+                <th>SP</th>
+                <th>PE_CHG</th>
+                <th>PE_IV</th>
+                <th>PE_VOL</th>
+                <th>PE_COI</th>
+                <th>PE_OI</th>
+                <th>PE_Sig</th>
+            </tr>
+            {% for row in bniftyoi %}
+            <tr>
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[0] == 'Long Buildup' %} background-color: #156B36; color: white;
+                    {% elif row[0] == 'Short Buildup' %} background-color: #A01A11; color: white;
+                    {% elif row[0] == 'Short covering' %} background-color: #F25836; color: white;
+                    {% elif row[0] == 'Long Liquidation' %} background-color: #156B36; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[0] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[1] is none %}
+                    N/A
+                    {% elif row[1] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
+                    {% elif row[1] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[1] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[2] is none %}
+                    N/A
+                    {% elif row[2] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
+                    {% elif row[2] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[2] }}</span>
+                        {% endif %}
+                </td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;">{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+                <td>{{ row[8] }}</td>
+                <td>{{ row[9] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[10] is none %}none{% elif row[10] > 0 %}positive{% elif row[10] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[10] is none %}
+                    N/A
+                    {% elif row[10] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[10] }}</span>
+                    {% elif row[10] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[10]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[10] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[11] is none %}none{% elif row[11] > 0 %}positive{% elif row[11] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[11] is none %}
+                    N/A
+                    {% elif row[11] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[11] }}</span>
+                    {% elif row[11] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[11]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[11] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[12] == 'Long Buildup' %} background-color: #156B36; color: white;
+                    {% elif row[12] == 'Short Buildup' %} background-color: #A01A11; color: white;
+                    {% elif row[12] == 'Short covering' %} background-color: #F25836; color: white;
+                    {% elif row[12] == 'Long Liquidation' %} background-color: #156B36; color: white;
                     {% else %}
                     background-color: rgba(55, 44, 151, 0.281); color: white;
                     {% endif %}">{{ row[12] }}</td>

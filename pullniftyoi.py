@@ -25,18 +25,33 @@ data_index = session.get(url_index, headers= headers_index) # This is get data f
 data = data_index.json()["records"]["data"]
 #print(data)
 ocdata = []
-while True:
-    for i in data:
-         for j,k in i.items():
-             if j=="CE" or j=="PE":
+#while True:
+for i in data:
+    for j,k in i.items():
+        if j=="CE" or j=="PE":
              #if j=="29-Mar-2023":
-                 info = k
-                 info["instrumentType"] = j
-                 ocdata.append(info)
+            info = k
+            info["instrumentType"] = j
+            ocdata.append(info)
                  #print(ocdata)
-    ocdf = pd.DataFrame(ocdata)
+ocdf = pd.DataFrame(ocdata)
     #print(ocdf)
-    tablename = 'niftyoidata'
-    ocdf.columns = [c.strip() for c in ocdf.columns.values.tolist()]
-    ocdf.to_sql(name = tablename, con = engine, index=True, if_exists= 'replace')
-    time.sleep(10)
+tablename = 'niftyoidata'
+ocdf.columns = [c.strip() for c in ocdf.columns.values.tolist()]
+
+
+with engine.connect() as conn:
+    transaction = conn.begin()
+    try:
+        ocdf.to_sql(name=tablename, con=conn, index=True, if_exists='replace')
+        transaction.commit()
+    except:
+        transaction.rollback()
+        raise
+# dispose of the database connection
+engine.dispose()
+
+#ocdf.to_sql(name = tablename, con = engine, index=True, if_exists= 'replace')
+#engine.dispose()
+print("Done")
+    #time.sleep(10)

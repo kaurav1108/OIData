@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="refresh" content="600">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='rangeoidata.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <title>OI Data</title>
+    <!-- <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.42857143;
+            color: #333;
+            background-color: #fff;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 2px solid black;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            border: 2px solid black;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background-color: #794caf;
+            color: white;
+            border: 2px solid black;
+        }
+
+        .table-container table {
+            width: 50%;
+            margin-right: 20px;
+        }
+
+        .table-container {
+            position: inherit;
+            height: 400px;
+            overflow: scroll;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .small-table table {
+            width: 50%;
+            margin-right: 20px;
+        }
+
+        .small-table {
+            position: inherit;
+            height: 100px;
+            overflow: scroll;
+            display: flex;
+            flex-direction: row;
+        }
+
+        footer {
+            background: #84CDD5;
+            color: white;
+            padding: 2px 30px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        #clock {
+            font-weight: bold;
+        }
+
+        /* .progress-column {
+            position: relative;
+        } */
+
+        .progress-bar {
+            height: 20px;
+            background-color: rgb(30, 26, 223);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            max-width: 150px;
+            /* add this line to limit the width */
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            color: rgb(20, 141, 221);
+            text-align: center;
+            line-height: 20px;
+            max-width: 100%;
+            /* add this line to make the text wrap */
+            white-space: nowrap;
+            /* add this line to prevent the text from wrapping prematurely */
+            overflow: hidden;
+            /* add this line to prevent the text from overflowing the progress bar */
+            text-overflow: ellipsis;
+            /* add this line to show an ellipsis when the text overflows */
+        }
+
+        .progress-bar:before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #3ca83c;
+            z-index: -1;
+        }
+        .strikeprice {
+        background-color: #0a6be9;
+        color: white;
+        }
+        .positive {
+        background-color: #B0E4C4;
+        color: white;
+        }
+        .negative {
+        background-color: #FEB6B6;
+        color: white;
+        }
+        .none {
+        background-color: rgba(55, 44, 151, 0.281);
+        color: white;
+        }
+    </style> -->
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="/">Home</a>
+            <a href="fulloidata">Full_OI_Data</a>
+            <a href="fiidiidata">FII_DII_Data</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+              <a href="#">Help</a>
+        </nav>
+    </header>
+    <div class="header">
+        <form action="/" method="post" style="float: right; margin-right: -800px;">
+            <button type="submit" class="btn btn-primary">Logout</button>
+        </form>
+    </div>
+    <div style="text-align: center; margin-top: -59px;">
+        <h1>Range OI Data</h1>
+    </div>
+    <h2>Current Underlying Data</h2>
+    <div class="small-table">
+        <table id="my-table">
+            <thead>
+                <tr>
+                    <th style="border: 2px solid black; text-align: center;">underlying</th>
+                    <th style="border: 2px solid black; text-align: center;">expiryDate</th>
+                    <th style="border: 2px solid black; text-align: center;">underlyingValue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rangeniftyunderlying %}
+                <tr>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[0] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[1] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id="my-table">
+            <thead>
+                <tr>
+                    <th style="border: 2px solid black; text-align: center;">CE_OI</th>
+                    <th style="border: 2px solid black; text-align: center;">PE_OI</th>
+                    <th style="border: 2px solid black; text-align: center;">PCR</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rangeniftypcr %}
+                <tr>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[0] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[1] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id="my-table">
+            <thead>
+                <tr>
+                    <th style="border: 2px solid black; text-align: center;">underlying</th>
+                    <th style="border: 2px solid black; text-align: center;">expiryDate</th>
+                    <th style="border: 2px solid black; text-align: center;">underlyingValue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rangebniftyunderlying %}
+                <tr>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[0] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[1] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id="my-table">
+            <thead>
+                <tr>
+                    <th style="border: 2px solid black; text-align: center;">CE_OI</th>
+                    <th style="border: 2px solid black; text-align: center;">PE_OI</th>
+                    <th style="border: 2px solid black; text-align: center;">PCR</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rangebankniftypcr %}
+                <tr>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[0] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[1] }}</td>
+                    <td style="border-left: 1px solid black; text-align: center;">{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2>OI Data Table <span id="clock"></span></h2>
+    <!-- <div id="clock"></div> -->
+    <div class="table-container">
+        <table id="myTable">
+            <tr>
+                <th>CE_Sig</th>
+                <th>CE_OI</th>
+                <th>CE_COI</th>
+                <th>CE_VOL</th>
+                <th>CE_IV</th>
+                <th>CE_CHG</th>
+                <th>SP</th>
+                <th>PE_CHG</th>
+                <th>PE_IV</th>
+                <th>PE_VOL</th>
+                <th>PE_COI</th>
+                <th>PE_OI</th>
+                <th>PE_Sig</th>
+            </tr>
+            {% for row in rangeniftyoi %}
+            <tr>
+
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[0] == 'Long Buildup-CallBuy-PutSell' %} background-color: #156B36; color: white;
+                    {% elif row[0] == 'Short Buildup-CallSell-PutBuy' %} background-color: #A01A11; color: white;
+                    {% elif row[0] == 'Short covering-CallBuy-PutSell' %} background-color: #F25836; color: white;
+                    {% elif row[0] == 'Long Liquidation-CallSell-PutBuy' %} background-color: #156B36; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[0] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[1] is none %}
+                    N/A
+                    {% elif row[1] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
+                    {% elif row[1] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[1] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[2] is none %}
+                    N/A
+                    {% elif row[2] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
+                    {% elif row[2] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[2] }}</span>
+                        {% endif %}
+                </td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;" class="strikeprice">{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+                <td>{{ row[8] }}</td>
+                <td>{{ row[9] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[10] is none %}none{% elif row[10] > 0 %}positive{% elif row[10] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[10] is none %}
+                    N/A
+                    {% elif row[10] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[10] }}</span>
+                    {% elif row[10] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[10]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[10] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[11] is none %}none{% elif row[11] > 0 %}positive{% elif row[11] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[11] is none %}
+                    N/A
+                    {% elif row[11] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[11] }}</span>
+                    {% elif row[11] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[11]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[11] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[12] == 'Long Buildup-CallSell-Putbuy' %} background-color: #156B36; color: white;
+                    {% elif row[12] == 'Short Buildup-CallBuy-PutSell' %} background-color: #A01A11; color: white;
+                    {% elif row[12] == 'Short covering-CallSell-Putbuy' %} background-color: #F25836; color: white;
+                    {% elif row[12] == 'Long Liquidation-CallBuy-PutSell' %} background-color: #156B36; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[12] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <table id="myTable">
+            <tr>
+                <th>CE_Sig</th>
+                <th>CE_OI</th>
+                <th>CE_COI</th>
+                <th>CE_VOL</th>
+                <th>CE_IV</th>
+                <th>CE_CHG</th>
+                <th>SP</th>
+                <th>PE_CHG</th>
+                <th>PE_IV</th>
+                <th>PE_VOL</th>
+                <th>PE_COI</th>
+                <th>PE_OI</th>
+                <th>PE_Sig</th>
+            </tr>
+            {% for row in rangebniftyoi %}
+            <tr>
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[0] == 'Long Buildup-CallBuy-PutSell' %} background-color: #156B36; color: white;
+                    {% elif row[0] == 'Short Buildup-CallSell-PutBuy' %} background-color: #A01A11; color: white;
+                    {% elif row[0] == 'Short covering-CallBuy-PutSell' %} background-color: #F25836; color: white;
+                    {% elif row[0] == 'Long Liquidation-CallSell-PutBuy' %} background-color: #156B36; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[0] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[1] is none %}
+                    N/A
+                    {% elif row[1] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
+                    {% elif row[1] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[1] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[2] is none %}
+                    N/A
+                    {% elif row[2] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
+                    {% elif row[2] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[2] }}</span>
+                        {% endif %}
+                </td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;" class="strikeprice">{{ row[6] }}</td>
+                <td>{{ row[7] }}</td>
+                <td>{{ row[8] }}</td>
+                <td>{{ row[9] }}</td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[10] is none %}none{% elif row[10] > 0 %}positive{% elif row[10] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[10] is none %}
+                    N/A
+                    {% elif row[10] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[10] }}</span>
+                    {% elif row[10] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[10]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[10] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; text-align: center;"
+                    class="{% if row[11] is none %}none{% elif row[11] > 0 %}positive{% elif row[11] < 0 %}negative{% else %}zero{% endif %}">
+                    {% if row[11] is none %}
+                    N/A
+                    {% elif row[11] > 0 %}
+                    <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[11] }}</span>
+                    {% elif row[11] < 0 %} <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[11]|abs
+                        }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[11] }}</span>
+                        {% endif %}
+                </td>
+                <td style="border: 2px solid black; padding: 8px; 
+                    {% if row[12] == 'Long Buildup-CallSell-Putbuy' %} background-color: #156B36; color: white;
+                    {% elif row[12] == 'Short Buildup-CallBuy-PutSell' %} background-color: #A01A11; color: white;
+                    {% elif row[12] == 'Short covering-CallSell-Putbuy' %} background-color: #F25836; color: white;
+                    {% elif row[12] == 'Long Liquidation-CallBuy-PutSell' %} background-color: #156B36; color: white;
+                    {% else %}
+                    background-color: rgba(55, 44, 151, 0.281); color: white;
+                    {% endif %}">{{ row[12] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="table-container">
+        <table id="myTable1" class="display">
+            <thead>
+                <tr>
+                    <th>Break_IV</th>
+                    <th>Break_OI</th>
+                    <th>Break_COI</th>
+                    <th>SP</th>
+                    <th>CNT</th>
+                    <th>COIBYNT</th>
+                    <th>PNT</th>
+                    <th>POIBYNT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rangebreakniftyoi %}
+                <tr>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[0] is none %}none{% elif row[0] > 0 %}positive{% elif row[0] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[0] is none %}
+                        N/A
+                        {% elif row[0] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[0] }}</span>
+                        {% elif row[0] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[0]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[0] }}</span>
+                        {% endif %}
+                        </td>
+                        <td style="border: 2px solid black; text-align: center;" class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
+                            {% if row[1] is none %}
+                            N/A
+                            {% elif row[1] > 0 %}
+                            <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
+                            {% elif row[1] < 0 %}
+                            <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs }}</span>
+                            {% else %}
+                            <span style="color: blue;">{{ row[1] }}</span>
+                            {% endif %}
+                            </td>
+                            <td style="border: 2px solid black; text-align: center;" class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
+                                {% if row[2] is none %}
+                                N/A
+                                {% elif row[2] > 0 %}
+                                <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
+                                {% elif row[2] < 0 %}
+                                <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs }}</span>
+                                {% else %}
+                                <span style="color: blue;">{{ row[2] }}</span>
+                                {% endif %}
+                                </td>
+                    <!-- <td>{{ row[0] }}</td> -->
+                    <!-- <td class="progress-column">{{ row[0] }}</td> -->
+                    <!-- <td class="{% if row[1] >= 0 %}positive{% else %}negative{% endif %}">{{ row[1] }}</td> -->
+                    <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;" class="strikeprice">{{ row[3] }}
+                    </td>
+                    <td style="text-align: center;">{{ row[4] }}</td>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[5] is none %}none{% elif row[5] > 0 %}positive{% elif row[5] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[5] is none %}
+                        N/A
+                        {% elif row[5] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[5] }}</span>
+                        {% elif row[5] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[5]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[5] }}</span>
+                        {% endif %}
+                        </td>
+                    <td style="text-align: center;">{{ row[6] }}</td>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[7] is none %}none{% elif row[7] > 0 %}positive{% elif row[7] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[7] is none %}
+                        N/A
+                        {% elif row[7] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[7] }}</span>
+                        {% elif row[7] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[7]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[7] }}</span>
+                        {% endif %}
+                        </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table id="myTable2" class="display">
+            <thead>
+                <tr>
+                    <th>Break_IV</th>
+                    <th>Break_OI</th>
+                    <th>Break_COI</th>
+                    <th>SP</th>
+                    <th>CNT</th>
+                    <th>COIBYNT</th>
+                    <th>PNT</th>
+                    <th>POIBYNT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rangebreakbniftyoi %}
+                <tr>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[0] is none %}none{% elif row[0] > 0 %}positive{% elif row[0] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[0] is none %}
+                        N/A
+                        {% elif row[0] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[0] }}</span>
+                        {% elif row[0] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[0]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[0] }}</span>
+                        {% endif %}
+                        </td>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[1] is none %}none{% elif row[1] > 0 %}positive{% elif row[1] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[1] is none %}
+                        N/A
+                        {% elif row[1] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[1] }}</span>
+                        {% elif row[1] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[1]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[1] }}</span>
+                        {% endif %}
+                        </td>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[2] is none %}none{% elif row[2] > 0 %}positive{% elif row[2] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[2] is none %}
+                        N/A
+                        {% elif row[2] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[2] }}</span>
+                        {% elif row[2] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[2]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[2] }}</span>
+                        {% endif %}
+                        </td>
+                    <!-- <td class="progress-column">{{ row[0] }}</td> -->
+                    <!-- <td class="{% if row[1] >= 0 %}positive{% else %}negative{% endif %}">{{ row[1] }}</td> -->
+                    <td style="border: 3px solid rgb(22, 120, 233); font-weight: bold;text-align: center;" class="strikeprice">{{ row[3] }}
+                    </td>
+                    <td style="text-align: center;">{{ row[4] }}</td>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[5] is none %}none{% elif row[5] > 0 %}positive{% elif row[5] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[5] is none %}
+                        N/A
+                        {% elif row[5] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[5] }}</span>
+                        {% elif row[5] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[5]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[5] }}</span>
+                        {% endif %}
+                        </td>
+                    <td style="text-align: center;">{{ row[6] }}</td>
+                    <td style="border: 2px solid black; text-align: center;" class="{% if row[7] is none %}none{% elif row[7] > 0 %}positive{% elif row[7] < 0 %}negative{% else %}zero{% endif %}">
+                        {% if row[7] is none %}
+                        N/A
+                        {% elif row[7] > 0 %}
+                        <span style="color: #156B36;"><i class="fa fa-arrow-up"></i>{{ row[7] }}</span>
+                        {% elif row[7] < 0 %}
+                        <span style="color: #A01A11;"><i class="fa fa-arrow-down"></i>{{ row[7]|abs }}</span>
+                        {% else %}
+                        <span style="color: blue;">{{ row[7] }}</span>
+                        {% endif %}
+                        </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable1').DataTable({
+                "columnDefs": [{
+                    "targets": 0,
+                    "render": function (data, type, row, meta) {
+                        return '<div class="progress-bar" style="width: ' + data + '%;"><span class="progress-text">' + data + '</span></div>';
+                    }
+                },
+                {
+                    "targets": 1,
+                    "render": function (data, type, row, meta) {
+                        return '<div class="progress-bar" style="width: ' + data + '%;"><span class="progress-text">' + data + '</span></div>';
+                    }
+                }]
+            });
+        });
+    </script> -->
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var options = {
+                timeZone: 'Asia/Kolkata',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            };
+            var formatter = new Intl.DateTimeFormat([], options);
+            var timeString = formatter.format(now);
+            document.getElementById('clock').innerHTML = timeString;
+        }
+        setInterval(updateTime, 1000);
+    </script>
+
+</body>
+<footer>
+    <div class="center">
+        <p>Developed by <a href="www.gauravsuryawanshi.com" target="_blank">Gaurav Suryawanshi</a></p>
+        Copyright &copy; www.gauravsuryawanshi.com All Right reserved
+    </div>
+</footer>
+
+</html>

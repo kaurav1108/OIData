@@ -1,0 +1,132 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 2px solid black;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    border: 2px solid black;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #794caf;
+    color: white;
+    border: 2px solid black;
+}
+
+.table-container table {
+    width: 50%;
+    margin-right: 20px;
+}
+
+.table-container {
+    position: inherit;
+    height: 400px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+}
+
+.small-table table {
+    width: 50%;
+    margin-right: 20px;
+}
+
+.small-table {
+    position: inherit;
+    height: 100px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+}
+
+footer {
+    background: #84CDD5;
+    color: white;
+    padding: 2px 30px;
+}
+
+.center {
+    text-align: center;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+/* .progress-column {
+    position: relative;
+} */
+
+.progress-bar {
+    height: 20px;
+    background-color: rgb(30, 26, 223);
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    max-width: 150px;
+    /* add this line to limit the width */
+}
+
+.progress-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    color: rgb(20, 141, 221);
+    text-align: center;
+    line-height: 20px;
+    max-width: 100%;
+    /* add this line to make the text wrap */
+    white-space: nowrap;
+    /* add this line to prevent the text from wrapping prematurely */
+    overflow: hidden;
+    /* add this line to prevent the text from overflowing the progress bar */
+    text-overflow: ellipsis;
+    /* add this line to show an ellipsis when the text overflows */
+}
+
+.progress-bar:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #3ca83c;
+    z-index: -1;
+}
+.strikeprice {
+background-color: #0a6be9;
+color: white;
+}
+.positive {
+background-color: #B0E4C4;
+color: white;
+}
+.negative {
+background-color: #FEB6B6;
+color: white;
+}
+.none {
+background-color: rgba(55, 44, 151, 0.281);
+color: white;
+}

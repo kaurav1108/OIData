@@ -1,0 +1,82 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 2px solid black;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    border: 2px solid black;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #794caf;
+    color: white;
+    border: 2px solid black;
+}
+
+.table-container table {
+    width: 50%;
+    margin-right: 3px;
+}
+
+.table-container {
+    position: inherit;
+    height: 400px;
+    width: 101%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+}
+
+/* .header {
+    overflow: hidden;
+    /* to clear any floated elements */
+} */
+
+.client {
+    float: left;
+    margin-left: 16px;
+    /* to create some space between headings */
+}
+
+.fii {
+    float: right;
+    margin-right: 888px;
+}
+.dii {
+    float: left;
+    margin-left: 16px;
+    /* to create some space between headings */
+}
+
+.pro {
+    float: right;
+    margin-right: 888px;
+}
+.green {
+background-color: #B0E4C4;
+color: white;
+}
+.red {
+background-color: #FEB6B6;
+color: white;
+}
+.none {
+background-color: rgba(55, 44, 151, 0.281);
+color: white;
+}

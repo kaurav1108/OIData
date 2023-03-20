@@ -17,3 +17,8 @@ Open :
 Login page
 Redirect page
 Footer
+
+python3.9 app.py
+File "/Users/kaurav/python/gaurav/OIData/templates/fulloidata.html", line 484, in top-level template code
+    <!-- <td class="{% if row[1] >= 0 %}positive{% else %}negative{% endif %}">{{ row[1] }}</td> -->
+TypeError: '>=' not supported between instances of 'NoneType' and 'int'

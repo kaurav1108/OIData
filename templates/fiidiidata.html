@@ -4,90 +4,10 @@
 <head>
     <title>Contract Data</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fiidiidata.css') }}">
-    <!-- <style>
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 11px;
-            line-height: 1.42857143;
-            color: #333;
-            background-color: #fff;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-            border: 2px solid black;
-        }
-
-        th,
-        td {
-            text-align: left;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            border: 2px solid black;
-        }
-
-        th {
-            position: sticky;
-            top: 0;
-            background-color: #794caf;
-            color: white;
-            border: 2px solid black;
-        }
-
-        .table-container table {
-            width: 50%;
-            margin-right: 3px;
-        }
-
-        .table-container {
-            position: inherit;
-            height: 400px;
-            width: 101%;
-            overflow: scroll;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .header {
-            overflow: hidden;
-            /* to clear any floated elements */
-        }
-
-        .client {
-            float: left;
-            margin-left: 16px;
-            /* to create some space between headings */
-        }
-
-        .fii {
-            float: right;
-            margin-right: 888px;
-        }
-        .dii {
-            float: left;
-            margin-left: 16px;
-            /* to create some space between headings */
-        }
-
-        .pro {
-            float: right;
-            margin-right: 888px;
-        }
-        .green {
-        background-color: #B0E4C4;
-        color: white;
-        }
-        .red {
-        background-color: #FEB6B6;
-        color: white;
-        }
-        .none {
-        background-color: rgba(55, 44, 151, 0.281);
-        color: white;
-        }
-    </style> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -100,17 +20,18 @@
               <a href="#">Contact</a>
               <a href="#">Help</a>
         </nav>
-    
-    <div class="header">
-        <h2 class="client">Client</h2>
-        <h2 class="fii">FII</h2>
-        <form action="/" method="post" style="float: right; margin-right: -800px;">
+    </header>
+    <div>
+        <form action="/" method="post" style="float: right; margin-right: 33px;">
             <button type="submit" class="btn btn-primary">Logout</button>
         </form>
-        
-    </div>
-    <div style="text-align: center; margin-top: 50px;">
+    </div> 
+    <div style="text-align: center; margin-top: 33px;">
         <h1>Daily FII DII Data</h1>
+    </div>
+    <div>
+        <h2 class="client">Client</h2>
+        <h2 class="fii">FII</h2>
     </div>
     <div class="table-container">
         <table id="myTable">
@@ -163,7 +84,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        <!-- <h2>FII</h2> -->
         <table id="myTable">
             <thead>
                 <tr>
@@ -215,7 +135,7 @@
             </tbody>
         </table>
     </div>
-    <div class="header">
+    <div>
         <h2 class="dii">DII</h2>
         <h2 class="pro">PRO</h2>
     </div>
@@ -279,8 +199,6 @@
                     <th>Future Long - Short</th>
                     <th>FROC</th>
                     <th>Future Trend</th>
-                    <!-- <th>Future Stock Long</th>
-				<th>Future Stock Short</th> -->
                     <th>Option Index Call Long</th>
                     <th>Option Index Call Short</th>
                     <th>Call Long - Short</th>
@@ -291,12 +209,6 @@
                     <th>Put Long - Short</th>
                     <th>Put ROC</th>
                     <th>PE Activity</th>
-                    <!-- <th>Option Stock Call Long</th>
-				<th>Option Stock Put Long</th>
-				<th>Option Stock Call Short</th>
-				<th>Option Stock Put Short</th> -->
-                    <!-- <th>Total Long Contracts</th>
-				<th>Total Short Contracts</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -310,8 +222,6 @@
                     <td style="background-color: {% if row[1]['Future Trend'] == 'Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
                         {{ row[1]['Future Trend'] }}
                     </td>
-                    <!-- <td>{{ row[1]['Future Stock Long'] }}</td>
-					<td>{{ row[1]['Future Stock Short'] }}</td> -->
                     <td>{{ row[1]['Option Index Call Long'] }}</td>
                     <td>{{ row[1]['Option Index Call Short'] }}</td>
                     <td>{{ row[1]['Call Long - Short'] }}</td>
@@ -326,127 +236,16 @@
                     <td style="background-color: {% if row[1]['PE Activity'] == 'Sold-Puts-Bullish' %}#B0E4C4{% else %}#FEB6B6{% endif %}">
                         {{ row[1]['PE Activity'] }}
                     </td>
-                    <!-- <td>{{ row[1]['Option Stock Call Long'] }}</td>
-					<td>{{ row[1]['Option Stock Put Long'] }}</td>
-					<td>{{ row[1]['Option Stock Call Short'] }}</td>
-					<td>{{ row[1]['Option Stock Put Short'] }}</td> -->
-                    <!-- <td>{{ row[1]['Total Long Contracts'] }}</td>
-					<td>{{ row[1]['Total Short Contracts'] }}</td> -->
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <!-- <h2>FII</h2>
-    <div class="table-container">
-        <table id="myTable">
-		<thead>
-			<tr>
-			    <th>Date</th>
-				<th>Future Index Long</th>
-				<th>Future Index Short</th>
-                <th>Future Long - Short</th>
-                <th>FROC</th>
-                <th>Future Trend</th>
-				<th>Option Index Call Long</th>
-                <th>Option Index Call Short</th>
-                <th>Call Long - Short</th>
-                <th>Call ROC</th>
-                <th>CE Activity</th>
-				<th>Option Index Put Long</th>
-				<th>Option Index Put Short</th>
-                <th>Put Long - Short</th>
-				<th>Put ROC</th>
-                <th>PE Activity</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for row in df_fii.iterrows() %}
-				<tr>
-                    <td>{{ row[1]['Date'] }}</td>
-					<td>{{ row[1]['Future Index Long'] }}</td>
-					<td>{{ row[1]['Future Index Short'] }}</td>
-                    <td>{{ row[1]['Future Long - Short'] }}</td>
-                    <td>{{ row[1]['FROC'] }}</td>
-                    <td>{{ row[1]['Future Trend'] }}</td>
-					<td>{{ row[1]['Option Index Call Long'] }}</td>
-                    <td>{{ row[1]['Option Index Call Short'] }}</td>
-                    <td>{{ row[1]['Call Long - Short'] }}</td>
-                    <td>{{ row[1]['Call ROC'] }}</td>
-                    <td>{{ row[1]['CE Activity'] }}</td>
-					<td>{{ row[1]['Option Index Put Long'] }}</td>
-					<td>{{ row[1]['Option Index Put Short'] }}</td>
-                    <td>{{ row[1]['Put Long - Short'] }}</td>
-                    <td>{{ row[1]['Put ROC'] }}</td>
-                    <td>{{ row[1]['PE Activity'] }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div> -->
-    <!-- <h2>PRO</h2>
-    <!-- <div class="table-container">
-        <table id="myTable">
-		<thead>
-			<tr>
-                <th>Date</th>
-				<th>Future Index Long</th>
-				<th>Future Index Short</th>
-                <th>Future Long - Short</th>
-                <th>FROC</th>
-                <th>Future Trend</th>
-				<!-- <th>Future Stock Long</th>
-				<th>Future Stock Short</th> -->
-    <!-- <th>Option Index Call Long</th>
-                <th>Option Index Call Short</th>
-                <th>Call Long - Short</th>
-                <th>Call ROC</th>
-                <th>CE Activity</th>
-				<th>Option Index Put Long</th>
-				<th>Option Index Put Short</th>
-                <th>Put Long - Short</th>
-				<th>Put ROC</th>
-                <th>PE Activity</th>
-                <!-- <th>Option Stock Call Long</th>
-				<th>Option Stock Put Long</th>
-				<th>Option Stock Call Short</th>
-				<th>Option Stock Put Short</th> -->
-    <!-- <th>Total Long Contracts</th>
-				<!-- <th>Total Short Contracts</th> -->
-    <!-- </tr>
-		</thead>
-		<tbody>
-			{% for row in df_pro.iterrows() %}
-				<tr>
-					<td>{{ row[1]['Date'] }}</td>
-					<td>{{ row[1]['Future Index Long'] }}</td>
-					<td>{{ row[1]['Future Index Short'] }}</td>
-                    <td>{{ row[1]['Future Long - Short'] }}</td>
-                    <td>{{ row[1]['FROC'] }}</td>
-                    <td>{{ row[1]['Future Trend'] }}</td> -->
-    <!-- <td>{{ row[1]['Future Stock Long'] }}</td>
-					<td>{{ row[1]['Future Stock Short'] }}</td> -->
-    <!-- <td>{{ row[1]['Option Index Call Long'] }}</td>
-                    <td>{{ row[1]['Option Index Call Short'] }}</td>
-                    <td>{{ row[1]['Call Long - Short'] }}</td>
-                    <td>{{ row[1]['Call ROC'] }}</td>
-                    <td>{{ row[1]['CE Activity'] }}</td>
-					<td>{{ row[1]['Option Index Put Long'] }}</td>
-					<td>{{ row[1]['Option Index Put Short'] }}</td>
-                    <td>{{ row[1]['Put Long - Short'] }}</td>
-                    <td>{{ row[1]['Put ROC'] }}</td>
-                    <td>{{ row[1]['PE Activity'] }}</td> -->
-    <!-- <td>{{ row[1]['Option Stock Call Long'] }}</td>
-					<td>{{ row[1]['Option Stock Put Long'] }}</td>
-					<td>{{ row[1]['Option Stock Call Short'] }}</td>
-					<td>{{ row[1]['Option Stock Put Short'] }}</td> -->
-    <!-- <td>{{ row[1]['Total Long Contracts'] }}</td>
-					<td>{{ row[1]['Total Short Contracts'] }}</td> -->
-    <!-- </tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div> -->
 </body>
-
+<footer>
+    <div class="center">
+        <p>Developed by <a href="www.gauravsuryawanshi.com" target="_blank">Gaurav Suryawanshi</a></p>
+        Copyright &copy; www.gauravsuryawanshi.com All Right reserved
+    </div>
+</footer>
 </html>

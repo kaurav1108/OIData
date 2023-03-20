@@ -2,16 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import pandas as pd
+import datetime
 
 #app = Flask(__name__)
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 niftyunderlyingsql="""
-select underlying,expiryDate,underlyingValue  FROM fnodatabase.niftyoidata WHERE expiryDate = '16-Mar-2023' LIMIT 1;
+select underlying,expiryDate,underlyingValue  FROM fnodatabase.niftyoidata WHERE expiryDate = '23-Mar-2023' LIMIT 1;
 """
 bniftyunderlyingsql="""
-select underlying,expiryDate,underlyingValue  FROM fnodatabase.bankniftyoidata WHERE expiryDate = '16-Mar-2023' LIMIT 1;
+select underlying,expiryDate,underlyingValue  FROM fnodatabase.bankniftyoidata WHERE expiryDate = '23-Mar-2023' LIMIT 1;
 """
 niftyoisql="""
 Select 
@@ -39,7 +40,7 @@ Select
     WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
     END AS 'PE_Signal'
 FROM fnodatabase.niftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -69,7 +70,7 @@ Select
     WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
     END AS 'PE_Signal'
 FROM fnodatabase.bankniftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -112,7 +113,7 @@ strikePrice,
     WHEN MAX(LENGTH(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END)) = 5 THEN (MAX(LEFT(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END, 1)))
     ELSE '0' END) AS 'PCOIBYNT'
    FROM fnodatabase.niftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -155,7 +156,7 @@ strikePrice,
     WHEN MAX(LENGTH(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END)) = 5 THEN (MAX(LEFT(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END, 1)))
     ELSE '0' END) AS 'PCOIBYNT'
    FROM fnodatabase.bankniftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -168,7 +169,7 @@ FROM (
     SELECT 
         MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
         MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest'
-    FROM fnodatabase.niftyoidata WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+    FROM fnodatabase.niftyoidata WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 ) subquery;
 """
 bankniftypcrsql = """
@@ -180,15 +181,15 @@ FROM (
     SELECT 
         MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
         MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest'
-    FROM fnodatabase.bankniftyoidata WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+    FROM fnodatabase.bankniftyoidata WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 ) subquery;
 """
 
 rangeniftyunderlyingsql="""
-select underlying,expiryDate,underlyingValue  FROM fnodatabase.niftyoidata WHERE expiryDate = '16-Mar-2023' LIMIT 1;
+select underlying,expiryDate,underlyingValue  FROM fnodatabase.niftyoidata WHERE expiryDate = '23-Mar-2023' LIMIT 1;
 """
 rangebniftyunderlyingsql="""
-select underlying,expiryDate,underlyingValue  FROM fnodatabase.bankniftyoidata WHERE expiryDate = '16-Mar-2023' LIMIT 1;
+select underlying,expiryDate,underlyingValue  FROM fnodatabase.bankniftyoidata WHERE expiryDate = '23-Mar-2023' LIMIT 1;
 """
 rangeniftyoisql="""
 Select 
@@ -216,7 +217,7 @@ WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) < 0 AND (
     WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
         END AS 'PE_Signal'
 FROM fnodatabase.niftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 16600 AND 17600
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 16600 AND 17600
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -246,7 +247,7 @@ Select
     WHEN (MAX(CASE WHEN instrumentType = 'PE' THEN round(`change`,3) END)) > 0 AND (MAX(CASE WHEN instrumentType = 'PE' THEN changeinOpenInterest END)) < 0 THEN 'Short covering-CallSell-Putbuy'
     END AS 'PE_Signal'
 FROM fnodatabase.bankniftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 38000 AND 40000
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 38000 AND 40000
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -289,7 +290,7 @@ strikePrice,
     WHEN MAX(LENGTH(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END)) = 5 THEN (MAX(LEFT(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END, 1)))
     ELSE '0' END) AS 'PCOIBYNT'
    FROM fnodatabase.niftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 16600 AND 17600
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 16600 AND 17600
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -332,7 +333,7 @@ strikePrice,
     WHEN MAX(LENGTH(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END)) = 5 THEN (MAX(LEFT(CASE WHEN instrumentType = 'PE' THEN (totalTradedVolume*50) END, 1)))
     ELSE '0' END) AS 'PCOIBYNT'
    FROM fnodatabase.bankniftyoidata
-WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 38000 AND 40000
+WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE') AND strikePrice between 38000 AND 40000
 GROUP BY strikePrice
 ORDER BY strikePrice;
 """
@@ -345,7 +346,7 @@ FROM (
     SELECT 
         MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
         MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest'
-    FROM fnodatabase.niftyoidata WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+    FROM fnodatabase.niftyoidata WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 ) subquery;
 """
 rangebankniftypcrsql = """
@@ -357,7 +358,7 @@ FROM (
     SELECT 
         MAX(CASE WHEN instrumentType = 'CE' THEN openInterest END) AS 'CE_OpenInterest',
         MAX(CASE WHEN instrumentType = 'PE' THEN openInterest END) AS 'PE_OpenInterest'
-    FROM fnodatabase.bankniftyoidata WHERE expiryDate = '16-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
+    FROM fnodatabase.bankniftyoidata WHERE expiryDate = '23-Mar-2023' AND (instrumentType = 'CE' OR instrumentType = 'PE')
 ) subquery;
 """
 
@@ -546,7 +547,7 @@ def fiidiidata():
         # Close the database connection
         connection.close()
 
-        df['Date'] = df['Date'].dt.date
+        #df['Date'] = df['Date'].dt.date
 
         # Create separate dataframes for each client type
         df_client = df[df['Client Type'] == 'Client']

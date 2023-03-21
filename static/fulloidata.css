@@ -105,15 +105,21 @@ th {
 }
 
 footer {
-    background: #84CDD5;
-    color: white;
+    background: #d0cbc2;
+    color: #5f20a2;
     padding: 2px 30px;
 }
 
 .center {
-    text-align: center;
+    text-align: left;
 }
-
+.social-icon a i{
+    float: right;
+    margin-right: 33px;
+}
+.social-icon a:hover i{
+    transform: scale(1.2);
+}
 #clock {
     font-weight: bold;
 }

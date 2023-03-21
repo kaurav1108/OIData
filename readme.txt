@@ -12,11 +12,21 @@ color coding added
 
 InProgress:
 Daily Long and Daily Short Difference
+test
 
 Open : 
 Login page
 Redirect page
 Footer
+welcome to animated word to be added
+about
+contact
+blogs‚
+
+Give input to python script via html code and that input to be taken from Users
+and make date to be filter from dropdown sort by month
+if data not found then show error as data not found
+
 
 python3.9 app.py
 File "/Users/kaurav/python/gaurav/OIData/templates/fulloidata.html", line 484, in top-level template code
